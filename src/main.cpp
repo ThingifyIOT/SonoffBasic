@@ -69,12 +69,13 @@ void loop()
 	uint64_t ledOnTime;
 	uint64_t ledOffTime;
 
-	if(thing.GetCurrentState() == ThingState::Online)
+	auto thingState = thing.GetCurrentState();
+	if(thingState == ThingState::Online)
 	{
 		ledOnTime = 100;
 		ledOffTime = 2000;
 	}
-	else if(thing.GetCurrentState() == ThingState::DisconnectedFromMqtt || thing.GetCurrentState() == ThingState::Disabled)
+	else if(thingState == ThingState::DisconnectedFromMqtt || thingState == ThingState::Disabled)
 	{
 		ledOnTime = 4000;
 		ledOffTime = 200;

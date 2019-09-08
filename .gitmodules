@@ -1,0 +1,12 @@
+[submodule "lib/ThingifyEsp"]
+	path = lib/ThingifyEsp
+	url = https://github.com/ThingifyIOT/ThingifyEsp.git
+[submodule "lib/ThingifyEspModules"]
+	path = lib/ThingifyEspModules
+	url = https://github.com/ThingifyIOT/ThingifyEspModules.git
+[submodule "lib/FixedString"]
+	path = lib/FixedString
+	url = https://github.com/toomasz/FixedString.git
+[submodule "lib/EasyButton"]
+	path = lib/EasyButton
+	url = https://github.com/evert-arias/EasyButton.git

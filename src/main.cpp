@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <ContiEsp.h>
+#include <ThingifyEsp.h>
 #include <DebugNodesModule.h>
 #include <EasyButton.h>
 #include <EEPROM.h>
@@ -16,7 +16,7 @@ ElapsedTimer timer2;
 Node *enabledNode;
 
 
-ContiEsp thing("mGZarwsg4OSfxw0Qce1A", "Sonoff R3");
+ThingifyEsp thing("mGZarwsg4OSfxw0Qce1A", "Sonoff R3");
 
 bool OnRelayValueChanged(void*_, Node *node)
 {

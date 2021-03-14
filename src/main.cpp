@@ -5,15 +5,18 @@
 
 
 const int ButtonPin = 0;
+const int AdditinalButtonPin = 9;
+
 const int RelayPin = 12;
 const int LedPin = 13;
 //const int EepromAddress = 51;
 
 EasyButton button(ButtonPin);
-ElapsedTimer timer1;
-ElapsedTimer timer2;
-Node *enabledNode;
+EasyButton additionalButton(AdditinalButtonPin, 300, false, false);
 
+
+Node *enabledNode;
+Node *longPressCount;
 
 ThingifyEsp thing("Sonoff R3");
 
@@ -25,7 +28,7 @@ bool OnRelayValueChanged(void*_, Node *node)
 	return true;
 }
 
-void OnButtonPressed()
+void OnAdditionaButtonPressed()
 {
 	auto value = !enabledNode->Value.AsBool();
 	enabledNode->SetValue(NodeValue::Boolean(value));
@@ -34,28 +37,36 @@ void OnButtonLongPressed()
 {
 	thing.ResetConfiguration();
 }
+void OnAdditionaButtonLongPressed()
+{
+ 	longPressCount->SetValue(NodeValue::Int(longPressCount->Value.AsInt()+1));
+}
 void setup()
 {
 	Serial.begin(500000);
-
+	
 	pinMode(RelayPin, OUTPUT);
 	pinMode(LedPin, OUTPUT);
 
-	//EEPROM.begin(150);
-	//bool initalState = EEPROM.read(EepromAddress);
-
 	bool initalState = false;
 	button.begin();
-	button.onPressed(OnButtonPressed);	
+	additionalButton.begin();
+	button.onPressed(OnAdditionaButtonPressed);	
 	button.onPressedFor(5000,OnButtonLongPressed);
+ 
+	additionalButton.onPressed(OnAdditionaButtonPressed);	
+	additionalButton.onPressedFor(2000, OnAdditionaButtonLongPressed);
+
 
 	enabledNode = thing.AddBoolean("Enabled")->OnChanged(OnRelayValueChanged);
 	enabledNode->SetValue(NodeValue::Boolean(initalState));
 
 	thing.AddDiagnostics();
-	thing.AddStatusLed(LedPin);
+	thing.AddStatusLed(LedPin, true);
+
+	longPressCount = thing.AddInt("long_press_count");
+
 	thing.Start();
-	timer1.Start();
 }
 
 
@@ -63,5 +74,6 @@ void setup()
 void loop()
 {
 	button.read();
+	additionalButton.read();
 	thing.Loop();
 }

@@ -3,17 +3,13 @@
 #include <EasyButton.h>
 #include <EEPROM.h>
 
-
 const int ButtonPin = 0;
 const int AdditinalButtonPin = 9;
-
 const int RelayPin = 12;
 const int LedPin = 13;
-//const int EepromAddress = 51;
 
 EasyButton button(ButtonPin);
 EasyButton additionalButton(AdditinalButtonPin, 300, false, false);
-
 
 Node *enabledNode;
 Node *longPressCount;
@@ -23,8 +19,6 @@ ThingifyEsp thing("Sonoff R3");
 bool OnRelayValueChanged(void*_, Node *node)
 {
 	digitalWrite(RelayPin, node->Value.AsBool());
-	//EEPROM.write(EepromAddress, node->Value.AsBool());
-	//EEPROM.commit();
 	return true;
 }
 
@@ -48,28 +42,26 @@ void setup()
 	pinMode(RelayPin, OUTPUT);
 	pinMode(LedPin, OUTPUT);
 
-	bool initalState = false;
+	
 	button.begin();
-	additionalButton.begin();
 	button.onPressed(OnAdditionaButtonPressed);	
 	button.onPressedFor(5000,OnButtonLongPressed);
- 
+
+ 	additionalButton.begin();
 	additionalButton.onPressed(OnAdditionaButtonPressed);	
 	additionalButton.onPressedFor(2000, OnAdditionaButtonLongPressed);
 
 
 	enabledNode = thing.AddBoolean("Enabled")->OnChanged(OnRelayValueChanged);
-	enabledNode->SetValue(NodeValue::Boolean(initalState));
+	longPressCount = thing.AddInt("long_press_count");
+
+	enabledNode->SetValue(NodeValue::Boolean(false));
 
 	thing.AddDiagnostics();
 	thing.AddStatusLed(LedPin, true);
 
-	longPressCount = thing.AddInt("long_press_count");
-
 	thing.Start();
 }
-
-
 
 void loop()
 {

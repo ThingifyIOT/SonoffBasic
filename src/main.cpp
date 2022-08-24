@@ -45,7 +45,7 @@ void setup()
 	
 	button.begin();
 	button.onPressed(OnAdditionaButtonPressed);	
-	button.onPressedFor(5000,OnButtonLongPressed);
+	button.onPressedFor(4000,OnButtonLongPressed);
 
  	additionalButton.begin();
 	additionalButton.onPressed(OnAdditionaButtonPressed);	

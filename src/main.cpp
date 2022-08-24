@@ -38,7 +38,8 @@ void OnAdditionaButtonLongPressed()
 void setup()
 {
 	Serial.begin(500000);
-	
+	thing.Initialize();
+    
 	pinMode(RelayPin, OUTPUT);
 	pinMode(LedPin, OUTPUT);
 

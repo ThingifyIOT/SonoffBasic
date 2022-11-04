@@ -2,9 +2,10 @@
 #include <ThingifyEsp.h>
 #include <EasyButton.h>
 #include <EEPROM.h>
+#include <Logging/Logger.h>
 
 const int ButtonPin = 0;
-const int AdditinalButtonPin = 9;
+const int AdditinalButtonPin = 3; // Use UART RX as input pin for touch sensor
 const int RelayPin = 12;
 const int LedPin = 13;
 
@@ -37,9 +38,10 @@ void OnAdditionaButtonLongPressed()
 }
 void setup()
 {
-	Serial.begin(500000);
+    LoggerInstance.LogEnabled = false;
+	//Serial.begin(500000); - dont initialize uart - we use it as additional button
 	thing.Initialize();
-    
+
 	pinMode(RelayPin, OUTPUT);
 	pinMode(LedPin, OUTPUT);
 

@@ -15,7 +15,7 @@ EasyButton additionalButton(AdditinalButtonPin, 300, false, false);
 Node *enabledNode;
 Node *longPressCount;
 
-ThingifyEsp thing("Sonoff R3");
+ThingifyEsp thing("Sonoff Basic");
 
 bool OnRelayValueChanged(void*_, Node *node)
 {
